@@ -1,7 +1,7 @@
 <template>
   <screen-adapter>
     <div class="main-page">
-      mainpage
+      mainpage///
     </div>
   </screen-adapter>
 </template>
