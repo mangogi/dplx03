@@ -64,19 +64,52 @@
       </div>
       <!-- 中间三个图 -->
       <div class="center_box">
-        <!-- 缴费分布柄图 -->
-        <box-container class="pie_charts" :boxWidth="'420'"></box-container>
+        <!-- 缴费分布饼图 -->
+        <box-container
+          class="pie_charts"
+          :boxWidth="'420'"
+          :titleWidth="'395'"
+          :title="'各险种缴费分析'"
+        >
+          <pie-chart></pie-chart>
+          <div class="legend_contain">
+            <pie-legend :legendData="mostData"></pie-legend>
+            <pie-legend
+              :legendData="lessData"
+              :colors="colors"
+              style="margin-left:53px"
+            ></pie-legend>
+          </div>
+        </box-container>
+        <!-- 中间大图 -->
         <box-container
           :boxWidth="'960'"
-          :titleWidth="'940'"
-          :showSelect="false"
           :title="'各险种缴费明细'"
-        ></box-container>
-        <box-container
-          :title="'各险种补缴/退缴情况'"
+          :titleWidth="'936'"
           :showSelect="false"
+          :showList="true"
+          @getTheme="getTheme"
+        >
+          <circle-box :boxTitle="boxTitle"></circle-box>
+        </box-container>
+        <!-- 雷达图 -->
+        <box-container
+          class="radar_chart"
+          :title="'各险种补缴/退缴情况'"
           :boxWidth="'420'"
-        ></box-container>
+          :titleWidth="'400'"
+          :showSelect="false"
+        >
+          <radar-chart></radar-chart>
+          <div style="display:flex">
+            <pie-legend :legendData="mostData"></pie-legend>
+            <pie-legend
+              :legendData="lessData"
+              :colors="colors"
+              style="margin-left:53px"
+            ></pie-legend>
+          </div>
+        </box-container>
       </div>
       <div class="bottom_box">
         <box-container
@@ -85,20 +118,21 @@
           :titleWidth="'574'"
           :boxHeight="'320'"
           :title="'缴费趋势分析'"
-        ></box-container>
+        >
+          <pay-fee></pay-fee>
+        </box-container>
         <box-container
-          class="pie_charts"
           :boxWidth="'600'"
           :titleWidth="'574'"
           :boxHeight="'320'"
-          :title="'缴费趋势分析'"
+          :title="'征缴趋势分析'"
+          :showSelect="false"
         ></box-container>
         <box-container
-          class="pie_charts"
           :boxWidth="'600'"
           :titleWidth="'574'"
           :boxHeight="'320'"
-          :title="'缴费趋势分析'"
+          :title="'补缴/退缴趋势分析'"
         ></box-container>
       </div>
     </div>
@@ -108,12 +142,23 @@
 import screenAdapter from './charts/ScreenAdapter.vue'
 import listBox from './charts/listBox.vue'
 import boxContainer from './charts/boxContainer.vue'
+import pieChart from './charts/pieChart.vue'
+import pieLegend from './charts/pieLegend.vue'
+import radarChart from './charts/radarChart.vue'
+import circleBox from './charts/circleBox.vue'
+import payFee from './charts/payFee.vue'
+
 export default {
   name: 'mainPage',
   components: {
     screenAdapter,
     listBox,
     boxContainer,
+    pieChart,
+    pieLegend,
+    radarChart,
+    circleBox,
+    payFee,
   },
   data() {
     return {
@@ -128,13 +173,35 @@ export default {
         { title: '补缴金额', unit: '万元', percent: '+2.3%', val: '234.9' },
         { title: '退费金额', unit: '万元', percent: '-2.3%', val: '56.89' },
       ],
+      mostData: {
+        title: '缴费最多险种',
+        name: '机关养老',
+        val: '393.87',
+        unit: '万元',
+        percent: '26%',
+      },
+      lessData: {
+        title: '缴费最少险种',
+        name: '城居养老',
+        val: '334.87',
+        unit: '万元',
+        percent: '16%',
+      },
+      colors: '#ec903d',
+      boxTitle: '城职养老', // 中间大框选中的title
     }
   },
   mounted() {
     this.getNowTime()
   },
   methods: {
+    /**
+     * @description 日期选择器绑定的方法
+     */
     getDay() {},
+    /**
+     * @description 获取当前时间转化为yy-mm-dd hh:mm格式
+     */
     getNowTime() {
       let startDate = new Date()
       let data = startDate
@@ -144,7 +211,12 @@ export default {
       let hours = startDate.getHours()
       let mins = startDate.getMinutes()
       this.todyTime = data.concat(' ' + hours, ':', mins)
-      console.log(this.todyTime)
+    },
+    /**
+     * @param item {string} = ['城职养老','城居养老']等
+     */
+    getTheme(item) {
+      this.boxTitle = item
     },
   },
 }
@@ -170,12 +242,18 @@ export default {
 
   background-size: 3px 16px, 16px 3px, 3px 16px, 16px 3px;
 }
+.legend_contain-flex {
+  display: flex;
+  flex-direction: row;
+}
 .main-page {
   width: 100%;
   height: 100%;
   background-color: #04090e;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: hidden;
   .main-title {
     width: 99%;
     height: 60px;
@@ -241,10 +319,21 @@ export default {
     width: 1840px;
     height: 489px;
     margin-top: 20px;
+    margin-left: 40px;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     .pie_charts {
-      margin-left: 40px;
+      margin-left: 0px;
+      .legend_contain {
+        .legend_contain-flex();
+      }
+      .radar_chart {
+        .radar_contain {
+          display: flex;
+          flex-direction: row;
+        }
+      }
     }
   }
   .bottom_box {
@@ -253,8 +342,9 @@ export default {
     margin-top: 20px;
     display: flex;
     flex-direction: row;
+    margin-left: 40px;
     .pie_charts {
-      margin-left: 40px;
+      margin-left: 0px;
     }
   }
 }

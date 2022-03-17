@@ -5,7 +5,16 @@
   >
     <div class="box_title" :style="{ width: titleWidth + 'px' }">
       <div class="box_title_flex">
-        <span>{{ title }}</span>
+        <span
+          ><img
+            src="../../assets/imgs/triangle.png"
+            alt=""
+            width="16px"
+            height="16px"
+            style="margin-left:10px"
+          />
+          {{ title }}</span
+        >
         <select
           class="provice_select"
           name="province-choice"
@@ -21,8 +30,20 @@
             {{ coupon }}
           </option>
         </select>
+        <div class="line_list" v-if="showList">
+          <div
+            class="list_data"
+            v-for="(item, index) in listsData"
+            :key="index"
+            :class="{ bottomBorder: index == keyNum }"
+            @click="changeList(index, item)"
+          >
+            {{ item }}
+          </div>
+        </div>
       </div>
     </div>
+    <slot></slot>
   </div>
 </template>
 
@@ -35,7 +56,7 @@ export default {
       default: '各险种缴费分布',
     },
     optionData: {
-      type: String,
+      type: Array,
       default: () => {
         return ['征缴总金额', '全部']
       },
@@ -46,20 +67,31 @@ export default {
     },
     boxWidth: {
       type: String,
-      default: '420',
+      default: '',
     },
     boxHeight: {
       type: String,
-      default: '489',
+      default: '',
     },
     titleWidth: {
       type: String,
-      default: '395',
+      default: '',
+    },
+    listsData: {
+      type: Array,
+      default: () => {
+        return ['城职养老', '城居养老', '机关养老', '失业保险', '工伤保险']
+      },
+    },
+    showList: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
     return {
       couponSelected: 0,
+      keyNum: 0, // 选中的index
     }
   },
   created() {
@@ -67,6 +99,11 @@ export default {
   },
   methods: {
     getCouponSelected() {},
+    changeList(key, item) {
+      this.keyNum = key
+      console.log(key, item)
+      this.$emit('getTheme', item)
+    },
   },
 }
 </script>
@@ -98,10 +135,9 @@ export default {
   border: solid 1px #2564ae;
   .bgcorner();
   .box_title {
-    width: 395px;
     height: 40px;
     background-image: linear-gradient(
-      -90deg,
+      to right,
       rgba(7, 40, 84, 0.4),
       rgba(54, 152, 255, 0.2)
     );
@@ -114,7 +150,7 @@ export default {
     // flex-direction: row;
     // justify-content: space-between;
     .box_title_flex {
-      width: 95%;
+      width: 97%;
       height: 100%;
       display: flex;
       flex-direction: row;
@@ -129,7 +165,22 @@ export default {
         height: 33px;
         color: #ffffff;
         font-size: 16px;
-        // margin-top: 4px;
+        margin-top: -3px;
+      }
+    }
+    .line_list {
+      display: flex;
+      flex-direction: row;
+      .list_data {
+        height: 30px;
+        margin-left: 40px;
+        color: #a9b5c0;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .bottomBorder {
+        color: white;
+        border-bottom: 2px solid #2383ed;
       }
     }
   }
