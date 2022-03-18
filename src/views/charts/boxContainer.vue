@@ -98,11 +98,20 @@ export default {
     this.couponSelected = 0
   },
   methods: {
-    getCouponSelected() {},
+    /**
+     * @description 菜单栏列表的点击事件
+     * @param key {number} 点击item的下标 从0开始
+     * @param item {string} 点击item的值
+     */
     changeList(key, item) {
       this.keyNum = key
-      console.log(key, item)
       this.$emit('getTheme', item)
+    },
+    /**
+     * 选择器点击事件
+     */
+    getCouponSelected() {
+      this.$emit('getOption', this.couponSelected)
     },
   },
 }

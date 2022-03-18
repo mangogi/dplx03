@@ -7,8 +7,9 @@
 </template>
 
 <script>
+import * as echarts from 'echarts'
 export default {
-  name: 'payFee',
+  name: 'returnFee',
   props: {
     height: {
       type: String,
@@ -43,19 +44,31 @@ export default {
         return [220, 182, 191, 234, 290, 330, 310, 220, 182, 191, 234, 290]
       },
     },
+    bar2Data: {
+      type: Array,
+      default: () => {
+        return [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120]
+      },
+    },
     lineData: {
       type: Array,
       default: () => {
         return [50, 60, 80, 55, 35, 24, 82, 60, 80, 55, 35, 82]
       },
     },
+    line2Data: {
+      type: Array,
+      default: () => {
+        return [60, 70, 89, 65, 55, 54, 92, 70, 90, 65, 45, 92]
+      },
+    },
     barTitle: {
       type: String,
-      default: '征缴总额',
+      default: '补税金额',
     },
     lineTitle: {
       type: String,
-      default: '同比',
+      default: '补税同比',
     },
     barUnit: {
       type: String,
@@ -64,6 +77,14 @@ export default {
     lineUnit: {
       type: String,
       default: '同比(%)',
+    },
+    bar2Title: {
+      type: String,
+      default: '退税金额',
+    },
+    line2Title: {
+      type: String,
+      default: '退税同比',
     },
   },
   data() {
@@ -84,8 +105,9 @@ export default {
       this.chartOption()
     },
     chartOption() {
-      const data = this.barData
-      const sideData = data.map(item => item + 9.5)
+      // const data = this.barData
+      const sideGetData = this.barData.map(item => item + 9.5)
+      const sideResData = this.bar2Data.map(item => item + 9.5)
       let option = {
         tooltip: {
           trigger: 'axis',
@@ -132,6 +154,16 @@ export default {
               param[1].seriesName +
               ' : ' +
               param[1].value +
+              '%' +
+              '<br>' +
+              param[2].seriesName +
+              ' : ' +
+              param[2].value +
+              '万元' +
+              '<br>' +
+              param[3].seriesName +
+              ' : ' +
+              param[3].value +
               '%'
             )
           },
@@ -232,6 +264,7 @@ export default {
           },
         ],
         series: [
+          // 第一个柱状图
           {
             name: this.barTitle,
             tooltip: {
@@ -241,7 +274,7 @@ export default {
             barWidth: 8,
             itemStyle: {
               normal: {
-                color: this.$echarts.graphic.LinearGradient(
+                color: new echarts.graphic.LinearGradient(
                   0,
                   1,
                   0,
@@ -249,23 +282,19 @@ export default {
                   [
                     {
                       offset: 0,
-                      color: '#147ade', // 0% 处的颜色
-                    },
-                    {
-                      offset: 0.6,
-                      color: '#00c8c6', // 60% 处的颜色
+                      color: '#147ade', // 60% 处的颜色
                     },
                     {
                       offset: 1,
-                      color: '#147ade', // 100% 处的颜色
+                      color: '#00c8c6', // 100% 处的颜色
                     },
                   ],
                   false
                 ),
               },
             },
-            data: data,
-            barGap: 0,
+            data: this.barData,
+            // barGap: 0.5,
           },
           {
             type: 'bar',
@@ -275,7 +304,7 @@ export default {
             },
             itemStyle: {
               normal: {
-                color: this.$echarts.graphic.LinearGradient(
+                color: new echarts.graphic.LinearGradient(
                   0,
                   1,
                   0,
@@ -298,8 +327,8 @@ export default {
                 ),
               },
             },
-            barGap: 0,
-            data: sideData,
+            barGap: 0.5,
+            data: sideGetData,
           },
           {
             name: '',
@@ -314,12 +343,14 @@ export default {
             },
             symbol: 'path://M 0,0 l 120,0 l -30,60 l -120,0 z',
             symbolSize: ['12', '4'],
-            symbolOffset: ['0', '-5'],
+            symbolOffset: ['-6', '-5'],
             // symbolRotate: -5,
             symbolPosition: 'end',
-            data: data,
+            data: this.barData,
+            barCategoryGap: '350%',
             z: 3,
           },
+
           {
             name: this.lineTitle,
             type: 'line',
@@ -359,6 +390,132 @@ export default {
             },
 
             data: this.lineData,
+          },
+          // 第二个
+          {
+            name: this.bar2Title,
+            tooltip: {
+              show: true,
+            },
+
+            type: 'bar',
+            barWidth: 8,
+            itemStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(
+                  0,
+                  1,
+                  0,
+                  0,
+                  [
+                    {
+                      offset: 0,
+                      color: '#a91a32', // 0% 处的颜色
+                    },
+
+                    {
+                      offset: 1,
+                      color: '#f77389', // 100% 处的颜色
+                    },
+                  ],
+                  false
+                ),
+                // color: '#f77389',
+              },
+            },
+            data: this.bar2Data,
+            barGap: 0,
+          },
+          {
+            type: 'bar',
+            barWidth: 4,
+            tooltip: {
+              show: false,
+            },
+            itemStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(
+                  0,
+                  1,
+                  0,
+                  0,
+                  [
+                    {
+                      offset: 0,
+                      color: '#a91a32', // 0% 处的颜色
+                    },
+
+                    {
+                      offset: 1,
+                      color: '#f77389', // 100% 处的颜色
+                    },
+                  ],
+                  false
+                ),
+              },
+            },
+            barGap: 0,
+            data: sideResData,
+          },
+          {
+            name: '',
+            tooltip: {
+              show: false,
+            },
+            type: 'pictorialBar',
+            itemStyle: {
+              borderWidth: 2,
+              borderColor: '#cf3750',
+              color: '#cf3750',
+            },
+            iremGap: '80%',
+            symbol: 'path://M 0,0 l 120,0 l -30,60 l -120,0 z',
+            symbolSize: ['12', '4'],
+            symbolOffset: ['6', '-5'],
+            // symbolRotate: -5,
+            symbolPosition: 'end',
+            data: this.bar2Data,
+            z: 3,
+          },
+          {
+            name: this.line2Title,
+            type: 'line',
+            yAxisIndex: 1, // 使用的 y 轴的 index，在单个图表实例中存在多个 y轴的时候有用
+            // smooth: true, //是否平滑
+            showAllSymbol: true,
+            symbol: 'image://' + require('../../assets/imgs/02.png'),
+            // symbol: 'circle',
+            symbolSize: 20,
+            lineStyle: {
+              normal: {
+                color: '#d43c58',
+                shadowColor: 'rgba(0, 0, 0, .3)',
+                shadowBlur: 0,
+                shadowOffsetY: 5,
+                shadowOffsetX: 5,
+              },
+            },
+            label: {
+              show: false,
+              position: 'top',
+              textStyle: {
+                color: '#6c50f3',
+              },
+            },
+            itemStyle: {
+              color: '#6c50f3',
+              borderColor: '#fff',
+              borderWidth: 3,
+              shadowColor: 'rgba(0, 0, 0, .3)',
+              shadowBlur: 0,
+              shadowOffsetY: 2,
+              shadowOffsetX: 2,
+            },
+            tooltip: {
+              show: true,
+            },
+
+            data: this.line2Data,
           },
         ],
       }

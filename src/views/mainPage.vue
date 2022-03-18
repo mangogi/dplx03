@@ -70,6 +70,7 @@
           :boxWidth="'420'"
           :titleWidth="'395'"
           :title="'各险种缴费分析'"
+          @getOption="getPieOption"
         >
           <pie-chart></pie-chart>
           <div class="legend_contain">
@@ -127,12 +128,16 @@
           :boxHeight="'320'"
           :title="'征缴趋势分析'"
           :showSelect="false"
-        ></box-container>
+        >
+          <line-chart></line-chart>
+        </box-container>
         <box-container
           :boxWidth="'600'"
           :titleWidth="'574'"
           :boxHeight="'320'"
           :title="'补缴/退缴趋势分析'"
+        >
+          <return-fee></return-fee
         ></box-container>
       </div>
     </div>
@@ -147,6 +152,8 @@ import pieLegend from './charts/pieLegend.vue'
 import radarChart from './charts/radarChart.vue'
 import circleBox from './charts/circleBox.vue'
 import payFee from './charts/payFee.vue'
+import returnFee from './charts/returnFee.vue'
+import lineChart from './charts/lineChart.vue'
 
 export default {
   name: 'mainPage',
@@ -159,6 +166,8 @@ export default {
     radarChart,
     circleBox,
     payFee,
+    returnFee,
+    lineChart,
   },
   data() {
     return {
@@ -189,6 +198,7 @@ export default {
       },
       colors: '#ec903d',
       boxTitle: '城职养老', // 中间大框选中的title
+      pieOption: '',
     }
   },
   mounted() {
@@ -217,6 +227,12 @@ export default {
      */
     getTheme(item) {
       this.boxTitle = item
+    },
+    /**
+     *@param item {number} 0、1、2
+     */
+    getPieOption(item) {
+      this.pieOption = item
     },
   },
 }

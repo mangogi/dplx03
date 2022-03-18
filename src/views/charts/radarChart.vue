@@ -20,14 +20,23 @@ export default {
     },
   },
   data() {
-    return {}
+    return {
+      chart: {},
+    }
   },
   mounted() {
     this.initCharts()
   },
+  beforeDestroy() {
+    this.$echarts.dispose(this.chart)
+    this.chart = null
+  },
   methods: {
     initCharts() {
-      let chart = this.$echarts.init(this.$refs.pie_chart)
+      this.chart = this.$echarts.init(this.$refs.pie_chart)
+      this.getChartOption()
+    },
+    getChartOption() {
       let option = {
         color: ['#39baff', '#ec903d'], // 数据蛛网线条的颜色，示例中为红黄绿
         tooltip: {
@@ -239,7 +248,7 @@ export default {
           },
         ],
       }
-      chart.setOption(option)
+      this.chart.setOption(option)
     },
   },
 }

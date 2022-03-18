@@ -20,14 +20,23 @@ export default {
     },
   },
   data() {
-    return {}
+    return {
+      chart: {},
+    }
   },
   mounted() {
     this.initCharts()
   },
+  beforeDestroy() {
+    this.$echarts.dispose(this.chart)
+    this.chart = null
+  },
   methods: {
     initCharts() {
-      let chart = this.$echarts.init(this.$refs.pie_chart)
+      this.chart = this.$echarts.init(this.$refs.pie_chart)
+      this.getChartOption()
+    },
+    getChartOption() {
       let colorList = [
         {
           type: 'linear',
@@ -236,7 +245,7 @@ export default {
           },
         ],
       }
-      chart.setOption(option)
+      this.chart.setOption(option)
     },
   },
 }

@@ -7,8 +7,9 @@
 </template>
 
 <script>
+import * as echarts from 'echarts'
 export default {
-  name: 'payFee',
+  name: 'lineChart',
   props: {
     height: {
       type: String,
@@ -37,16 +38,22 @@ export default {
         ]
       },
     },
-    barData: {
-      type: Array,
-      default: () => {
-        return [220, 182, 191, 234, 290, 330, 310, 220, 182, 191, 234, 290]
-      },
-    },
     lineData: {
       type: Array,
       default: () => {
+        return [60, 70, 89, 65, 55, 54, 92, 70, 90, 65, 45, 92]
+      },
+    },
+    line2Data: {
+      type: Array,
+      default: () => {
         return [50, 60, 80, 55, 35, 24, 82, 60, 80, 55, 35, 82]
+      },
+    },
+    line3Data: {
+      type: Array,
+      default: () => {
+        return [30, 40, 39, 45, 55, 54, 32, 40, 30, 45, 35, 32]
       },
     },
     barTitle: {
@@ -55,11 +62,19 @@ export default {
     },
     lineTitle: {
       type: String,
-      default: '同比',
+      default: '城职养老',
+    },
+    line2Title: {
+      type: String,
+      default: '失业保险',
+    },
+    line3Title: {
+      type: String,
+      default: '机关养老',
     },
     barUnit: {
       type: String,
-      default: '金额(万元)',
+      default: '缴费率(%)',
     },
     lineUnit: {
       type: String,
@@ -84,8 +99,6 @@ export default {
       this.chartOption()
     },
     chartOption() {
-      const data = this.barData
-      const sideData = data.map(item => item + 9.5)
       let option = {
         tooltip: {
           trigger: 'axis',
@@ -127,11 +140,16 @@ export default {
               param[0].seriesName +
               ' : ' +
               param[0].value +
-              '万元' +
+              '%' +
               '<br>' +
               param[1].seriesName +
               ' : ' +
               param[1].value +
+              '%' +
+              '<br>' +
+              param[2].seriesName +
+              ' : ' +
+              param[2].value +
               '%'
             )
           },
@@ -233,109 +251,41 @@ export default {
         ],
         series: [
           {
-            name: this.barTitle,
-            tooltip: {
-              show: true,
-            },
-            type: 'bar',
-            barWidth: 8,
-            itemStyle: {
-              normal: {
-                color: this.$echarts.graphic.LinearGradient(
-                  0,
-                  1,
-                  0,
-                  0,
-                  [
-                    {
-                      offset: 0,
-                      color: '#147ade', // 0% 处的颜色
-                    },
-                    {
-                      offset: 0.6,
-                      color: '#00c8c6', // 60% 处的颜色
-                    },
-                    {
-                      offset: 1,
-                      color: '#147ade', // 100% 处的颜色
-                    },
-                  ],
-                  false
-                ),
-              },
-            },
-            data: data,
-            barGap: 0,
-          },
-          {
-            type: 'bar',
-            barWidth: 4,
-            tooltip: {
-              show: false,
-            },
-            itemStyle: {
-              normal: {
-                color: this.$echarts.graphic.LinearGradient(
-                  0,
-                  1,
-                  0,
-                  0,
-                  [
-                    {
-                      offset: 0,
-                      color: '#147ade', // 0% 处的颜色
-                    },
-                    {
-                      offset: 0.6,
-                      color: '#00c8c6', // 60% 处的颜色
-                    },
-                    {
-                      offset: 1,
-                      color: '#3cecfe', // 100% 处的颜色
-                    },
-                  ],
-                  false
-                ),
-              },
-            },
-            barGap: 0,
-            data: sideData,
-          },
-          {
-            name: '',
-            tooltip: {
-              show: false,
-            },
-            type: 'pictorialBar',
-            itemStyle: {
-              borderWidth: 2,
-              borderColor: '#0571D5',
-              color: '#1779E0',
-            },
-            symbol: 'path://M 0,0 l 120,0 l -30,60 l -120,0 z',
-            symbolSize: ['12', '4'],
-            symbolOffset: ['0', '-5'],
-            // symbolRotate: -5,
-            symbolPosition: 'end',
-            data: data,
-            z: 3,
-          },
-          {
             name: this.lineTitle,
             type: 'line',
             yAxisIndex: 1, // 使用的 y 轴的 index，在单个图表实例中存在多个 y轴的时候有用
+            showSymbol: false,
+            symbol: 'circle',
+            symbolSize: 6,
             // smooth: true, //是否平滑
-            showAllSymbol: true,
-            symbol: 'image://' + require('../../assets/imgs/6.png'),
-            // symbol: 'circle',
-            symbolSize: 20,
             lineStyle: {
               normal: {
-                color: '#4d95ff',
+                color: '#0387fe',
                 shadowColor: 'rgba(0, 0, 0, .3)',
-                shadowBlur: 0,
-                shadowOffsetY: 5,
-                shadowOffsetX: 5,
+                // shadowBlur: 0,
+                // shadowOffsetY: 5,
+                // shadowOffsetX: 5,
+              },
+            },
+            areaStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(
+                  0,
+                  0,
+                  0,
+                  1,
+                  [
+                    {
+                      offset: 0,
+                      color: 'rgba(3, 135, 254,0.5)',
+                    },
+                    {
+                      offset: 1,
+                      color: 'rgba(3, 135, 254,0.2)',
+                    },
+                  ],
+                  false
+                ),
               },
             },
             label: {
@@ -345,20 +295,113 @@ export default {
                 color: '#6c50f3',
               },
             },
-            itemStyle: {
-              color: '#6c50f3',
-              borderColor: '#fff',
-              borderWidth: 3,
-              shadowColor: 'rgba(0, 0, 0, .3)',
-              shadowBlur: 0,
-              shadowOffsetY: 2,
-              shadowOffsetX: 2,
-            },
             tooltip: {
               show: true,
             },
 
             data: this.lineData,
+          },
+          {
+            name: this.line2Title,
+            type: 'line',
+            yAxisIndex: 0, // 使用的 y 轴的 index，在单个图表实例中存在多个 y轴的时候有用
+            showSymbol: false,
+            symbol: 'circle',
+            symbolSize: 6,
+            // smooth: true, //是否平滑
+            lineStyle: {
+              normal: {
+                color: '#3cd4bd',
+                shadowColor: 'rgba(0, 0, 0, .3)',
+                // shadowBlur: 0,
+                // shadowOffsetY: 5,
+                // shadowOffsetX: 5,
+              },
+            },
+            areaStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(
+                  0,
+                  0,
+                  0,
+                  1,
+                  [
+                    {
+                      offset: 0,
+                      color: 'rgba(0, 212, 189,0.5)',
+                    },
+                    {
+                      offset: 1,
+                      color: 'rgba(0, 212, 189,0.2)',
+                    },
+                  ],
+                  false
+                ),
+              },
+            },
+            label: {
+              show: false,
+              position: 'top',
+              textStyle: {
+                color: '#6c50f3',
+              },
+            },
+            tooltip: {
+              show: true,
+            },
+
+            data: this.line2Data,
+          },
+          {
+            name: this.line3Title,
+            type: 'line',
+            yAxisIndex: 1, // 使用的 y 轴的 index，在单个图表实例中存在多个 y轴的时候有用
+            showSymbol: false,
+            symbol: 'circle',
+            symbolSize: 6,
+            // smooth: true, //是否平滑
+            lineStyle: {
+              normal: {
+                color: '#d43c58',
+                shadowColor: 'rgba(0, 0, 0, .3)',
+                // shadowBlur: 0,
+                // shadowOffsetY: 5,
+                // shadowOffsetX: 5,
+              },
+            },
+            areaStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(
+                  0,
+                  0,
+                  0,
+                  1,
+                  [
+                    {
+                      offset: 0,
+                      color: 'rgba(3212, 60, 88,0.5)',
+                    },
+                    {
+                      offset: 1,
+                      color: 'rgba(212, 60, 88,0.2)',
+                    },
+                  ],
+                  false
+                ),
+              },
+            },
+            label: {
+              show: false,
+              position: 'top',
+              textStyle: {
+                color: '#6c50f3',
+              },
+            },
+            tooltip: {
+              show: true,
+            },
+
+            data: this.line3Data,
           },
         ],
       }
