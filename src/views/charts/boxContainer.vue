@@ -165,11 +165,10 @@ export default {
       flex-direction: row;
       justify-content: space-between;
       margin-top: -33px;
-      margin-left: 15px;
+      margin-left: 10px;
       .provice_select {
         background-color: #061524;
-        border: solid 1px #134086;
-        border: 0px;
+        border: 1px solid #134086;
         font-size: 18px;
         height: 33px;
         color: #ffffff;

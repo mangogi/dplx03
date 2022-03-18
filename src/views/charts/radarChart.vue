@@ -18,11 +18,66 @@ export default {
       type: String,
       default: '420',
     },
+    // 雷达图最外圈的值
+    indicatorData: {
+      type: Array,
+      default: () => {
+        return [
+          {
+            text: '机关养老',
+            max: 100,
+          },
+          {
+            text: '工商保险',
+            max: 100,
+          },
+          {
+            text: '失业保险',
+            max: 100,
+          },
+          {
+            text: '城居养老',
+            max: 100,
+          },
+          {
+            text: '城职养老',
+            max: 100,
+          },
+        ]
+      },
+    },
+    radarFirstData: {
+      type: Array,
+      default: () => {
+        return [65, 65, 55, 40, 72]
+      },
+    },
+    radarSecondData: {
+      type: Array,
+      default: () => {
+        return [90, 20, 45, 30, 75]
+      },
+    },
   },
   data() {
     return {
       chart: {},
     }
+  },
+  computed: {
+    listenChange() {
+      const { radarFirstData, radarSecondData } = this
+      return { radarFirstData, radarSecondData }
+    },
+  },
+  watch: {
+    listenChange: {
+      handler(val, oldval) {
+        if (val) {
+          this.getChartOption()
+        }
+      },
+    },
   },
   mounted() {
     this.initCharts()
@@ -67,28 +122,7 @@ export default {
         radar: [
           {
             // 每个网格的指数名称，类似于X轴或Y轴上的数据的值大小
-            indicator: [
-              {
-                text: '机关养老',
-                max: 100,
-              },
-              {
-                text: '工商保险',
-                max: 100,
-              },
-              {
-                text: '失业保险',
-                max: 100,
-              },
-              {
-                text: '城居养老',
-                max: 100,
-              },
-              {
-                text: '城职养老',
-                max: 100,
-              },
-            ],
+            indicator: this.indicatorData,
             center: ['50%', '52%'], // 统计图位置，示例是居中
             radius: '70%', // 统计图大小
             startAngle: 90, // 统计图起始的角度
@@ -145,7 +179,7 @@ export default {
             data: [
               {
                 name: '补缴', // 数据名称
-                value: [85, 65, 55, 40, 72],
+                value: this.radarFirstData,
                 areaStyle: {
                   normal: {
                     // 单项区域填充样式
@@ -197,7 +231,7 @@ export default {
               },
               {
                 name: '退缴',
-                value: [90, 20, 45, 30, 75],
+                value: this.radarSecondData,
                 symbolSize: 4.5,
                 itemStyle: {
                   normal: {

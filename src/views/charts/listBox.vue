@@ -11,7 +11,7 @@
         }}</span>
       </div>
     </div>
-    <div class="split_line"></div>
+    <div class="split_line" v-show="showLine"></div>
   </div>
 </template>
 
@@ -38,6 +38,10 @@ export default {
     imgUrl: {
       type: String,
       default: '01_70',
+    },
+    showLine: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {

@@ -18,11 +18,47 @@ export default {
       type: String,
       default: '420',
     },
+    pieData: {
+      type: Array,
+      default: () => {
+        return [
+          {
+            name: '城职养老',
+            value: 25,
+          },
+          {
+            name: '城居养老',
+            value: 24,
+          },
+          {
+            name: '机关养老',
+            value: 23,
+          },
+          {
+            name: '工商保险',
+            value: 22,
+          },
+          {
+            name: '失业保险',
+            value: 21,
+          },
+        ]
+      },
+    },
   },
   data() {
     return {
       chart: {},
     }
+  },
+  watch: {
+    pieData: {
+      handler(val, oldval) {
+        if (val) {
+          this.getChartOption()
+        }
+      },
+    },
   },
   mounted() {
     this.initCharts()
@@ -149,34 +185,17 @@ export default {
         },
       ]
       let colorLine = ['#71808f', '#71808f', '#71808f', '#71808f', '#71808f']
-      let data = [
-        {
-          name: '城职养老',
-          value: 25,
-        },
-        {
-          name: '城居养老',
-          value: 24,
-        },
-        {
-          name: '机关养老',
-          value: 23,
-        },
-        {
-          name: '工商保险',
-          value: 22,
-        },
-        {
-          name: '失业保险',
-          value: 21,
-        },
-      ].sort((a, b) => {
+      let data = this.pieData.sort((a, b) => {
         return b.value - a.value
       })
+      // 如果要设置线条不同颜色可以这样写，只有一个颜色就可以直接写在option内
       data.forEach((v, i) => {
         v.labelLine = {
+          length: 30,
+          length2: 30,
           lineStyle: {
             width: 1,
+            length: 80,
             color: colorLine[i],
           },
         }

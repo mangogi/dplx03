@@ -71,6 +71,21 @@ export default {
       chart: {},
     }
   },
+  computed: {
+    listenChange() {
+      const { barData, lineData } = this
+      return { barData, lineData }
+    },
+  },
+  watch: {
+    listenChange: {
+      handler(val, oldval) {
+        if (val) {
+          this.chartOption()
+        }
+      },
+    },
+  },
   mounted() {
     this.initCharts()
   },

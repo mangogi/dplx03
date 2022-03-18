@@ -60,19 +60,21 @@
           :title="listData[6].title"
           :val="listData[6].val"
           :percent="listData[6].percent"
+          :showLine="false"
         ></list-box>
       </div>
       <!-- 中间三个图 -->
       <div class="center_box">
-        <!-- 缴费分布饼图 -->
+        <!--  各险种缴费分析饼图 -->
         <box-container
           class="pie_charts"
           :boxWidth="'420'"
-          :titleWidth="'395'"
+          :titleWidth="'400'"
           :title="'各险种缴费分析'"
           @getOption="getPieOption"
         >
           <pie-chart></pie-chart>
+          <!-- 图例 -->
           <div class="legend_contain">
             <pie-legend :legendData="mostData"></pie-legend>
             <pie-legend
@@ -93,7 +95,7 @@
         >
           <circle-box :boxTitle="boxTitle"></circle-box>
         </box-container>
-        <!-- 雷达图 -->
+        <!-- 各险种补缴/退缴情况雷达图 -->
         <box-container
           class="radar_chart"
           :title="'各险种补缴/退缴情况'"
@@ -101,7 +103,8 @@
           :titleWidth="'400'"
           :showSelect="false"
         >
-          <radar-chart></radar-chart>
+          <radar-chart :radarSecondData="radarSecondData"></radar-chart>
+          <!-- 图例 -->
           <div style="display:flex">
             <pie-legend :legendData="mostData"></pie-legend>
             <pie-legend
@@ -112,7 +115,9 @@
           </div>
         </box-container>
       </div>
+      <!-- 下面三个echarts图 -->
       <div class="bottom_box">
+        <!-- 缴费趋势分析 -->
         <box-container
           class="pie_charts"
           :boxWidth="'600'"
@@ -122,6 +127,7 @@
         >
           <pay-fee></pay-fee>
         </box-container>
+        <!-- 征缴趋势分析 -->
         <box-container
           :boxWidth="'600'"
           :titleWidth="'574'"
@@ -131,6 +137,7 @@
         >
           <line-chart></line-chart>
         </box-container>
+        <!-- 补缴/退缴趋势分析 -->
         <box-container
           :boxWidth="'600'"
           :titleWidth="'574'"
@@ -199,6 +206,7 @@ export default {
       colors: '#ec903d',
       boxTitle: '城职养老', // 中间大框选中的title
       pieOption: '',
+      radarSecondData: [90, 20, 45, 30, 75],
     }
   },
   mounted() {
@@ -229,10 +237,12 @@ export default {
       this.boxTitle = item
     },
     /**
+     * @description 获取各险种缴费分析的option选项
      *@param item {number} 0、1、2
      */
     getPieOption(item) {
       this.pieOption = item
+      this.radarSecondData = [44, 44, 44, 44, 44]
     },
   },
 }
@@ -276,11 +286,11 @@ export default {
     background: url('../assets/imgs/bg.png') no-repeat;
     margin-left: 0.5%;
     .top_box {
-      width: 95%;
+      width: 97%;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      margin-left: 2.5%;
+      margin-left: 1.5%;
       .date_picker {
         background-color: #061524;
         color: #ffffff;
@@ -305,6 +315,7 @@ export default {
         -webkit-background-clip: text;
         color: transparent;
         margin-top: 14px;
+        text-align: right;
       }
       .day_time {
         width: 149px;

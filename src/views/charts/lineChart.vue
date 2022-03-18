@@ -86,6 +86,21 @@ export default {
       chart: {},
     }
   },
+  computed: {
+    listenChange() {
+      const { line2Data, lineData, line3Data } = this
+      return { line2Data, lineData, line3Data }
+    },
+  },
+  watch: {
+    listenChange: {
+      handler(val, oldval) {
+        if (val) {
+          this.chartOption()
+        }
+      },
+    },
+  },
   mounted() {
     this.initCharts()
   },

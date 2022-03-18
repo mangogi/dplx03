@@ -92,6 +92,21 @@ export default {
       chart: {},
     }
   },
+  computed: {
+    listenChange() {
+      const { barData, bar2Data, lineData, line2Data } = this
+      return { barData, bar2Data, lineData, line2Data }
+    },
+  },
+  watch: {
+    listenChange: {
+      handler(val, oldval) {
+        if (val) {
+          this.chartOption()
+        }
+      },
+    },
+  },
   mounted() {
     this.initCharts()
   },
