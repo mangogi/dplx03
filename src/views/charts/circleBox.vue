@@ -179,6 +179,17 @@ export default {
       color: transparent;
       animation: titlefloat 2s linear infinite 0.5s;
     }
+    @keyframes ballfloat {
+      0% {
+        transform: translate(0px, 0px);
+      }
+      50% {
+        transform: translate(0px, 3px);
+      }
+      100% {
+        transform: translate(0px, 0px);
+      }
+    }
     @keyframes titlefloat {
       0% {
         transform: translate(0px, 0px);
@@ -190,45 +201,49 @@ export default {
         transform: translate(0px, 0px);
       }
     }
+    .floatAnimation {
+      position: absolute;
+      animation: ballfloat 2s linear infinite 0.5s;
+    }
     .ball_bjje {
       top: 68px;
       left: 27px;
-      position: absolute;
+      .floatAnimation();
     }
     .ball_grjfje {
       top: 170px;
       left: 170px;
-      position: absolute;
+     .floatAnimation();
     }
     .ball_dwjfje {
       top: 170px;
       left: 600px;
-      position: absolute;
+     .floatAnimation();
     }
     .ball_tjje {
       top: 68px;
       left: 740px;
-      position: absolute;
+      .floatAnimation();
     }
     .ball_jfzrs {
       top: 100px;
       left: 297px;
-      position: absolute;
+     .floatAnimation();
     }
     .ball_zjl {
       top: 100px;
       left: 477px;
-      position: absolute;
+      .floatAnimation();
     }
     .blue_left {
       top: 19px;
       left: 193px;
-      position: absolute;
+      .floatAnimation();
     }
     .blue_right {
       top: 19px;
       left: 603px;
-      position: absolute;
+      .floatAnimation();
     }
     .orange_ball {
       width: 258px;
