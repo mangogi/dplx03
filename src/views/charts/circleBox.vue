@@ -2,6 +2,10 @@
   <div class="box_contain">
     <p>单位：{{ unit }}</p>
     <div class="main_context">
+      <div class="bg_contain">
+        <div class="bg_transform"></div>
+        <!-- <img src="../../assets/imgs/bg_pie.png" alt="" class="bg_transform" /> -->
+      </div>
       <p class="main_title">{{ boxTitle }}</p>
       <!-- 蓝色 -->
       <ball class="ball_bjje"></ball>
@@ -136,15 +140,55 @@ export default {
     display: flex;
     flex-direction: row;
     position: relative;
+
+    .bg_contain {
+      width: 650px;
+      height: 650px;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(70deg);
+      // 旋转的动画效果
+      .bg_transform {
+        background: url('../../assets/imgs/bg_pie.png') no-repeat center;
+        background-size: 100%;
+        width: 100%;
+        height: 100%;
+        animation: rotate 8s linear infinite 0.5s;
+        margin-top: -550px;
+        margin-left: 100px;
+      }
+    }
+    @keyframes rotate {
+      from {
+        transform: rotateZ(360deg);
+      }
+      to {
+        transform: rotateZ(0deg);
+      }
+    }
+
     .main_title {
       width: 100%;
       height: 30px;
       text-align: center;
       margin-top: -30px;
+      margin-left: -650px;
       font-size: 20px;
       background: linear-gradient(to bottom, white, #ffa460);
       -webkit-background-clip: text;
       color: transparent;
+      animation: titlefloat 2s linear infinite 0.5s;
+    }
+    @keyframes titlefloat {
+      0% {
+        transform: translate(0px, 0px);
+      }
+      50% {
+        transform: translate(0px, 5px);
+      }
+      100% {
+        transform: translate(0px, 0px);
+      }
     }
     .ball_bjje {
       top: 68px;

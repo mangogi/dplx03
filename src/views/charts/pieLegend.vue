@@ -1,10 +1,13 @@
 <template>
   <div class="legend_box">
+    <!-- 第一行 -->
     <span class="first_line">
       <div class="circle_icon" :style="{ backgroundColor: colors }"></div>
       {{ legendData.title }}
     </span>
+    <!-- 第二行 -->
     <span class="second_line">{{ legendData.name }}</span>
+    <!-- 第三行 -->
     <div class="legend_data">
       <span class="data_num" :style="{ color: colors }">{{
         legendData.val

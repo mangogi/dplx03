@@ -18,7 +18,7 @@
       </div>
       <!-- 七个列表部分 -->
       <div class="list_box">
-        <div v-for="(item, index) in listData" :key="index">
+        <div v-for="(item, index) in listData" :key="item.title">
           <list-box
             :imgUrl="imgUrlData[index]"
             :title="listData[index].title"
@@ -32,9 +32,9 @@
         <!--  各险种缴费分析饼图 -->
         <box-container
           class="pie_charts"
-          :boxWidth="'420'"
-          :titleWidth="'400'"
-          :title="'各险种缴费分析'"
+          boxWidth="420"
+          titleWidth="400"
+          title="各险种缴费分析"
           @getOption="getPieOption"
         >
           <pie-chart></pie-chart>
@@ -50,11 +50,11 @@
         </box-container>
         <!-- 中间大图 -->
         <box-container
-          :boxWidth="'960'"
-          :title="'各险种缴费明细'"
-          :titleWidth="'936'"
+          boxWidth="960"
+          title="各险种缴费明细"
+          titleWidth="936"
           :showSelect="false"
-          :showList="true"
+          showList
           @getTheme="getTheme"
         >
           <circle-box :boxTitle="boxTitle"></circle-box>
@@ -62,9 +62,9 @@
         <!-- 各险种补缴/退缴情况雷达图 -->
         <box-container
           class="radar_chart"
-          :title="'各险种补缴/退缴情况'"
-          :boxWidth="'420'"
-          :titleWidth="'400'"
+          title="各险种补缴/退缴情况"
+          boxWidth="420"
+          titleWidth="400"
           :showSelect="false"
         >
           <radar-chart :radarSecondData="radarSecondData"></radar-chart>
@@ -84,29 +84,29 @@
         <!-- 缴费趋势分析 -->
         <box-container
           class="pie_charts"
-          :boxWidth="'600'"
-          :titleWidth="'574'"
-          :boxHeight="'320'"
-          :title="'缴费趋势分析'"
+          boxWidth="600"
+          titleWidth="574"
+          boxHeight="320"
+          title="缴费趋势分析"
         >
           <pay-fee></pay-fee>
         </box-container>
         <!-- 征缴趋势分析 -->
         <box-container
-          :boxWidth="'600'"
-          :titleWidth="'574'"
-          :boxHeight="'320'"
-          :title="'征缴趋势分析'"
+          boxWidth="600"
+          titleWidth="574"
+          boxHeight="320"
+          title="征缴趋势分析"
           :showSelect="false"
         >
           <line-chart></line-chart>
         </box-container>
         <!-- 补缴/退缴趋势分析 -->
         <box-container
-          :boxWidth="'600'"
-          :titleWidth="'574'"
-          :boxHeight="'320'"
-          :title="'补缴/退缴趋势分析'"
+          boxWidth="600"
+          titleWidth="574"
+          boxHeight="320"
+          title="补缴/退缴趋势分析"
         >
           <return-fee></return-fee
         ></box-container>
@@ -196,14 +196,15 @@ export default {
       this.todyTime = data.concat(' ' + hours, ':', mins)
     },
     /**
-     * @param item {string} = ['城职养老','城居养老']等
+     * 获取主题
+     * @param item {string}  ['城职养老','城居养老']等
      */
     getTheme(item) {
       this.boxTitle = item
     },
     /**
-     * @description 获取各险种缴费分析的option选项
-     *@param item {number} 0、1、2
+     * 获取各险种缴费分析的option选项
+     * @param item {number} 0、1、2
      */
     getPieOption(item) {
       this.pieOption = item

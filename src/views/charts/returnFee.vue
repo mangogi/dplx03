@@ -89,10 +89,12 @@ export default {
   },
   data() {
     return {
-      chart: {},
     }
   },
   computed: {
+    /**
+     * 将要监听的数据合成一个对象
+     */
     listenChange() {
       const { barData, bar2Data, lineData, line2Data } = this
       return { barData, bar2Data, lineData, line2Data }
@@ -110,15 +112,24 @@ export default {
   mounted() {
     this.initCharts()
   },
+  /**
+   * 销毁实例
+   */
   beforeDestroy() {
     this.$echarts.dispose(this.chart)
     this.chart = null
   },
   methods: {
+    /**
+     * 初始化实例
+     */
     initCharts() {
       this.chart = this.$echarts.init(this.$refs.pie_chart)
       this.chartOption()
     },
+    /**
+     * 设置option
+     */
     chartOption() {
       // const data = this.barData
       const sideGetData = this.barData.map(item => item + 9.5)

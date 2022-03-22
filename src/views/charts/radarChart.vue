@@ -65,6 +65,9 @@ export default {
     }
   },
   computed: {
+    /**
+     * 将要监听的数据合成一个对象
+     */
     listenChange() {
       const { radarFirstData, radarSecondData } = this
       return { radarFirstData, radarSecondData }
@@ -79,18 +82,28 @@ export default {
       },
     },
   },
+
   mounted() {
     this.initCharts()
   },
+  /**
+   * 销毁实例
+   */
   beforeDestroy() {
     this.$echarts.dispose(this.chart)
     this.chart = null
   },
   methods: {
+    /**
+     * 初始化实例
+     */
     initCharts() {
       this.chart = this.$echarts.init(this.$refs.pie_chart)
       this.getChartOption()
     },
+    /**
+     * 设置option
+     */
     getChartOption() {
       let option = {
         color: ['#39baff', '#ec903d'], // 数据蛛网线条的颜色，示例中为红黄绿

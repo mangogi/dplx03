@@ -83,12 +83,16 @@ export default {
   },
   data() {
     return {
-      chart: {},
     }
   },
   computed: {
+    /**
+     * 将要监听的值设为对象
+     */
     listenChange() {
+      // this 指向的是vuecomponent
       const { line2Data, lineData, line3Data } = this
+      // console.log(this)
       return { line2Data, lineData, line3Data }
     },
   },
@@ -104,15 +108,24 @@ export default {
   mounted() {
     this.initCharts()
   },
+  /**
+   * 销毁实例
+   */
   beforeDestroy() {
     this.$echarts.dispose(this.chart)
     this.chart = null
   },
   methods: {
+    /**
+     * 初始化实例
+     */
     initCharts() {
       this.chart = this.$echarts.init(this.$refs.pie_chart)
       this.chartOption()
     },
+    /**
+     * 设置option
+     */
     chartOption() {
       let option = {
         tooltip: {

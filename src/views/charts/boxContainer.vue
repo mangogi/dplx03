@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     /**
-     * @description 菜单栏列表的点击事件
+     * 菜单栏列表的点击事件
      * @param key {number} 点击item的下标 从0开始
      * @param item {string} 点击item的值
      */

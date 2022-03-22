@@ -48,7 +48,6 @@ export default {
   },
   data() {
     return {
-      chart: {},
     }
   },
   watch: {
@@ -63,15 +62,24 @@ export default {
   mounted() {
     this.initCharts()
   },
+  /**
+   * 销毁实例
+   */
   beforeDestroy() {
     this.$echarts.dispose(this.chart)
     this.chart = null
   },
   methods: {
+    /**
+     * 初始化实例
+     */
     initCharts() {
       this.chart = this.$echarts.init(this.$refs.pie_chart)
       this.getChartOption()
     },
+    /**
+     * 设置option
+     */
     getChartOption() {
       let colorList = [
         {
