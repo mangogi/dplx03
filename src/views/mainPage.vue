@@ -18,50 +18,14 @@
       </div>
       <!-- 七个列表部分 -->
       <div class="list_box">
-        <list-box
-          :imgUrl="'01_70'"
-          :title="listData[0].title"
-          :val="listData[0].val"
-          :percent="listData[0].percent"
-        ></list-box>
-        <list-box
-          :imgUrl="'01_38'"
-          :title="listData[1].title"
-          :val="listData[1].val"
-          :percent="listData[1].percent"
-        ></list-box>
-        <list-box
-          :imgUrl="'01_7'"
-          :title="listData[2].title"
-          :val="listData[2].val"
-          :percent="listData[2].percent"
-        ></list-box>
-        <list-box
-          :imgUrl="'01_75'"
-          :title="listData[3].title"
-          :val="listData[3].val"
-          :percent="listData[3].percent"
-        ></list-box>
-        <list-box
-          :imgUrl="'01_44'"
-          :title="listData[4].title"
-          :val="listData[4].val"
-          :unit="listData[4].unit"
-          :percent="listData[4].percent"
-        ></list-box>
-        <list-box
-          :imgUrl="'01_62'"
-          :title="listData[5].title"
-          :val="listData[5].val"
-          :percent="listData[5].percent"
-        ></list-box>
-        <list-box
-          :imgUrl="'01'"
-          :title="listData[6].title"
-          :val="listData[6].val"
-          :percent="listData[6].percent"
-          :showLine="false"
-        ></list-box>
+        <div v-for="(item, index) in listData" :key="index">
+          <list-box
+            :imgUrl="imgUrlData[index]"
+            :title="listData[index].title"
+            :val="listData[index].val"
+            :percent="listData[index].percent"
+          ></list-box>
+        </div>
       </div>
       <!-- 中间三个图 -->
       <div class="center_box">
@@ -180,6 +144,7 @@ export default {
     return {
       selectDay: '', // 日期选择器
       todyTime: '', // 当前日期
+      imgUrlData: ['01_70', '01_38', '01_7', '01_75', '01_44', '01_62', '01'],
       listData: [
         { title: '个人缴费金额', unit: '万元', percent: '+2.3%', val: '34.89' },
         { title: '单位缴费金额', unit: '万元', percent: '+2.3%', val: '86.89' },
