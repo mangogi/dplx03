@@ -47,14 +47,18 @@ export default {
     },
   },
   data() {
-    return {
-    }
+    return {}
   },
   watch: {
     pieData: {
       handler(val, oldval) {
         if (val) {
-          this.getChartOption()
+          // 深拷贝 如果使用浅拷贝 piedata会一直改变 触发watch监听导致死循环
+          let data = Object.assign([], val)
+          data.sort((a, b) => {
+            return b.value - a.value
+          })
+          this.getChartOption(data)
         }
       },
     },
@@ -75,12 +79,16 @@ export default {
      */
     initCharts() {
       this.chart = this.$echarts.init(this.$refs.pie_chart)
-      this.getChartOption()
+      let data = this.pieData
+      data.sort((a, b) => {
+        return b.value - a.value
+      })
+      this.getChartOption(data)
     },
     /**
      * 设置option
      */
-    getChartOption() {
+    getChartOption(data) {
       let colorList = [
         {
           type: 'linear',
@@ -193,9 +201,12 @@ export default {
         },
       ]
       let colorLine = ['#71808f', '#71808f', '#71808f', '#71808f', '#71808f']
-      let data = this.pieData.sort((a, b) => {
-        return b.value - a.value
-      })
+      // let data1 = val
+      // let data = []
+      // data = data1.sort((a, b) => {
+      //   return b.value - a.value
+      // })
+
       // 如果要设置线条不同颜色可以这样写，只有一个颜色就可以直接写在option内
       data.forEach((v, i) => {
         v.labelLine = {

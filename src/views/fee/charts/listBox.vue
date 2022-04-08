@@ -11,7 +11,7 @@
         }}</span>
       </div>
     </div>
-    <div class="split_line" v-show="showLine"></div>
+    <div class="split_line" v-show="showLine !== 6"></div>
   </div>
 </template>
 
@@ -40,8 +40,8 @@ export default {
       default: '01_70',
     },
     showLine: {
-      type: Boolean,
-      default: true,
+      type: Number,
+      // default: 0,
     },
   },
   data() {

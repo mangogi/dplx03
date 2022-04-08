@@ -28,6 +28,7 @@
             :title="listData[index].title"
             :val="listData[index].val"
             :percent="listData[index].percent"
+            :showLine="index"
           ></list-box>
           <!-- <div class="split_line"></div> -->
         </div>

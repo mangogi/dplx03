@@ -53,15 +53,15 @@ export default {
   mounted() {
     this.setPie()
   },
-  // watch: {
-  //   pieData: {
-  //     handler(val, oldVal) {
-  //       if (val) {
-  //         this.getOption()
-  //       }
-  //     },
-  //   },
-  // },
+  watch: {
+    pieData: {
+      handler(val, oldVal) {
+        if (val) {
+          this.getOption()
+        }
+      },
+    },
+  },
   methods: {
     /**
      * @description 设置option
@@ -98,10 +98,10 @@ export default {
         },
         legend: {
           show: true,
-          top: '-10%',
-          left: '7%',
+          top: '-18%',
+          left: '4%',
           orient: 'horizontal',
-          itemGap: 210,
+          itemGap: 170,
           itemWidth: 56,
           itemHeight: 5,
           textStyle: {
@@ -109,9 +109,12 @@ export default {
           },
           align: 'left',
           formatter: params => {
-            let pieDataReverse = pieData.reverse()
+            let data = Object.assign([],pieData)
+            let pieDataReverse = data.reverse()
+            console.log('pie',pieDataReverse)
             for (let i = 0; i < pieDataReverse.length; i++) {
               if (pieDataReverse[i].name === params) {
+                console.log('param',params)
                 return (
                   '\n\n\n\n\n\n\n\n\n' +
                   '{sex|' +
