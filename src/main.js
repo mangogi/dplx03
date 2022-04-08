@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import * as echarts from 'echarts'
-import axios from 'axios'
+import axios from './api/axiosErr'
 import Vueaxios from 'vue-axios'
 
 // Vue.prototype.$axios= axios

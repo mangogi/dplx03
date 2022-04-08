@@ -54,11 +54,11 @@ export default {
       handler(val, oldval) {
         if (val) {
           // 深拷贝 如果使用浅拷贝 piedata会一直改变 触发watch监听导致死循环
-          let data = Object.assign([], val)
-          data.sort((a, b) => {
+          let data1 = Object.assign([], val)
+          data1.sort((a, b) => {
             return b.value - a.value
           })
-          this.getChartOption(data)
+          this.getChartOption(data1)
         }
       },
     },

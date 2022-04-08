@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     /**
-     * @description 设置option
+     * 设置option
      */
     getOption() {
       const pieData = this.pieData

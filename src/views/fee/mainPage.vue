@@ -209,7 +209,7 @@ export default {
      */
     getPayFeeData() {
       this.axios
-        .get('/main/payFee')
+        .get('/main/payFee1')
         .then(response => {
           let data = response.data.data
           this.barData = []
