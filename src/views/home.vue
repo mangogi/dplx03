@@ -88,7 +88,7 @@ export default {
   color: #fff;
   overflow: hidden;
   background: url('../assets/mainImg/bg.png');
-  background-size: 100% 100%;
+  background-size: 100% 60%;
 
   .imgs-box {
     display: flex;
