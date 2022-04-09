@@ -2,6 +2,7 @@
 /**
  * 异常信息统一处理，包括axios请求，以及databinder方式请求
  * errorResponse，请求错误的error.response
+ * 要根据自己的项目需求进行处理
  */
 
 const ErrorMsg = (errorResponse) => {

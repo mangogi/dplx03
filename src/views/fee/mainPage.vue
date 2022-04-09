@@ -209,7 +209,7 @@ export default {
      */
     getPayFeeData() {
       this.axios
-        .get('/main/payFee1')
+        .get('/main/payFee')
         .then(response => {
           let data = response.data.data
           this.barData = []
@@ -256,9 +256,6 @@ export default {
         .get('/mode1/tableDataOne')
         .then(response => {
           this.newsList = response.data.data
-          console.log(response)
-        })
-        .catch(response => {
           console.log(response)
         })
     },
